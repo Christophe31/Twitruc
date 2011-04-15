@@ -1,0 +1,6 @@
+C:\Users\Christophe\Documents\Dev\TP\Twitruc\Twitruc.DAL\bin\Debug\Twitruc.DAL.dll.config
+C:\Users\Christophe\Documents\Dev\TP\Twitruc\Twitruc.DAL\bin\Debug\Twitruc.DAL.dll
+C:\Users\Christophe\Documents\Dev\TP\Twitruc\Twitruc.DAL\bin\Debug\Twitruc.DAL.pdb
+C:\Users\Christophe\Documents\Dev\TP\Twitruc\Twitruc.DAL\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Christophe\Documents\Dev\TP\Twitruc\Twitruc.DAL\obj\Debug\Twitruc.DAL.dll
+C:\Users\Christophe\Documents\Dev\TP\Twitruc\Twitruc.DAL\obj\Debug\Twitruc.DAL.pdb

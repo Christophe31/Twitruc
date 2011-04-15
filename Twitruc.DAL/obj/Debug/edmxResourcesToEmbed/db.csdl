@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="db" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+  <EntityContainer Name="dbContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Users" EntityType="db.User" />
+    <EntitySet Name="Tweets" EntityType="db.Tweet" />
+    <AssociationSet Name="UserEntity1" Association="db.UserEntity1">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Tweet" EntitySet="Tweets" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Guid" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Name" Nullable="false" />
+    <Property Type="String" Name="Email" Nullable="false" />
+    <Property Type="String" Name="Nickname" Nullable="false" />
+    <Property Type="String" Name="Password" Nullable="false" />
+    <Property Type="String" Name="Token" Nullable="false" />
+    <Property Type="String" Name="TokenSecret" Nullable="false" />
+    <Property Type="String" Name="TwitterNick" Nullable="false" />
+    <NavigationProperty Name="Entity1" Relationship="db.UserEntity1" FromRole="User" ToRole="Tweet" />
+    <Property Type="DateTime" Name="Inscription" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tweet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Guid" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int64" Name="TweetId" Nullable="false" />
+    <Property Type="String" Name="Content" Nullable="false" MaxLength="145" />
+    <Property Type="DateTime" Name="Date" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="db.UserEntity1" FromRole="Tweet" ToRole="User" />
+  </EntityType>
+  <Association Name="UserEntity1">
+    <End Type="db.User" Role="User" Multiplicity="0..1" />
+    <End Type="db.Tweet" Role="Tweet" Multiplicity="*" />
+  </Association>
+</Schema>
