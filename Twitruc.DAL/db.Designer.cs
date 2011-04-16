@@ -18,7 +18,7 @@ using System.Runtime.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("db", "UserEntity1", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Twitruc.DAL.User), "Tweet", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Twitruc.DAL.Tweet))]
+[assembly: EdmRelationshipAttribute("db", "UserEntity1", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Twitruc.DAL.TwitrucUser), "Tweet", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Twitruc.DAL.Tweet))]
 
 #endregion
 
@@ -73,18 +73,18 @@ namespace Twitruc.DAL
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<User> Users
+        public ObjectSet<TwitrucUser> TwitrucUsers
         {
             get
             {
-                if ((_Users == null))
+                if ((_TwitrucUsers == null))
                 {
-                    _Users = base.CreateObjectSet<User>("Users");
+                    _TwitrucUsers = base.CreateObjectSet<TwitrucUser>("TwitrucUsers");
                 }
-                return _Users;
+                return _TwitrucUsers;
             }
         }
-        private ObjectSet<User> _Users;
+        private ObjectSet<TwitrucUser> _TwitrucUsers;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -106,11 +106,11 @@ namespace Twitruc.DAL
         #region AddTo Methods
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the Users EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the TwitrucUsers EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddToUsers(User user)
+        public void AddToTwitrucUsers(TwitrucUser twitrucUser)
         {
-            base.AddObject("Users", user);
+            base.AddObject("TwitrucUsers", twitrucUser);
         }
     
         /// <summary>
@@ -269,15 +269,15 @@ namespace Twitruc.DAL
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("db", "UserEntity1", "User")]
-        public User User
+        public TwitrucUser User
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("db.UserEntity1", "User").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TwitrucUser>("db.UserEntity1", "User").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("db.UserEntity1", "User").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TwitrucUser>("db.UserEntity1", "User").Value = value;
             }
         }
         /// <summary>
@@ -285,17 +285,17 @@ namespace Twitruc.DAL
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<User> UserReference
+        public EntityReference<TwitrucUser> UserReference
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("db.UserEntity1", "User");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TwitrucUser>("db.UserEntity1", "User");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("db.UserEntity1", "User", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<TwitrucUser>("db.UserEntity1", "User", value);
                 }
             }
         }
@@ -306,15 +306,15 @@ namespace Twitruc.DAL
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="db", Name="User")]
+    [EdmEntityTypeAttribute(NamespaceName="db", Name="TwitrucUser")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class User : EntityObject
+    public partial class TwitrucUser : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new User object.
+        /// Create a new TwitrucUser object.
         /// </summary>
         /// <param name="id">Initial value of the Id property.</param>
         /// <param name="name">Initial value of the Name property.</param>
@@ -325,19 +325,19 @@ namespace Twitruc.DAL
         /// <param name="tokenSecret">Initial value of the TokenSecret property.</param>
         /// <param name="twitterNick">Initial value of the TwitterNick property.</param>
         /// <param name="inscription">Initial value of the Inscription property.</param>
-        public static User CreateUser(global::System.Guid id, global::System.String name, global::System.String email, global::System.String nickname, global::System.String password, global::System.String token, global::System.String tokenSecret, global::System.String twitterNick, global::System.DateTime inscription)
+        public static TwitrucUser CreateTwitrucUser(global::System.Guid id, global::System.String name, global::System.String email, global::System.String nickname, global::System.String password, global::System.String token, global::System.String tokenSecret, global::System.String twitterNick, global::System.DateTime inscription)
         {
-            User user = new User();
-            user.Id = id;
-            user.Name = name;
-            user.Email = email;
-            user.Nickname = nickname;
-            user.Password = password;
-            user.Token = token;
-            user.TokenSecret = tokenSecret;
-            user.TwitterNick = twitterNick;
-            user.Inscription = inscription;
-            return user;
+            TwitrucUser twitrucUser = new TwitrucUser();
+            twitrucUser.Id = id;
+            twitrucUser.Name = name;
+            twitrucUser.Email = email;
+            twitrucUser.Nickname = nickname;
+            twitrucUser.Password = password;
+            twitrucUser.Token = token;
+            twitrucUser.TokenSecret = tokenSecret;
+            twitrucUser.TwitterNick = twitterNick;
+            twitrucUser.Inscription = inscription;
+            return twitrucUser;
         }
 
         #endregion

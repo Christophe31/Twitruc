@@ -1,4 +1,7 @@
 *.exe
-debug/
+Debug/
+Release/
+bin/
 *.dll
 *.cache
+Twitruc/Web.config
