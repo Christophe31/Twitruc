@@ -5,3 +5,6 @@ bin/
 *.dll
 *.cache
 Twitruc/Web.config
+Twitruc.DAL/obj/
+Twitruc/obj/
+

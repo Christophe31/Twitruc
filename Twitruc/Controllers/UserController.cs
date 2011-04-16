@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Twitterizer;
+using Twitruc.DAL;
 using Twitruc.Models;
 using System.Web.Routing;
 using System.Configuration;
@@ -85,7 +86,7 @@ namespace Twitruc.Controllers
 		// **************************************
 
 		public ActionResult ChangePassword() {
-			EntityLib.User usr;
+			TwitrucUser usr;
 			if (String.IsNullOrEmpty(Session["nickname"] as String))
 				return RedirectToAction("LogOn", "Account", new ReturnUrl(this.HttpContext.Request.RawUrl));
 			else
@@ -97,7 +98,7 @@ namespace Twitruc.Controllers
 
 		[HttpPost]
 		public ActionResult ChangePassword(ChangePasswordForm model) {
-			EntityLib.User usr;
+			TwitrucUser usr;
 			if (String.IsNullOrEmpty(Session["nickname"] as String))
 				return RedirectToAction("LogOn", "Account", new ReturnUrl(this.HttpContext.Request.RawUrl));
 			else
@@ -129,7 +130,7 @@ namespace Twitruc.Controllers
 		// **************************************
 
 		public ActionResult Callback() {
-			EntityLib.User usr;
+			TwitrucUser usr;
 			if (String.IsNullOrEmpty(Session["nickname"] as String))
 				return RedirectToAction("LogOn", "Account", new ReturnUrl(this.HttpContext.Request.RawUrl));
 			else
@@ -146,7 +147,7 @@ namespace Twitruc.Controllers
 		// **************************************
 
 		public ActionResult BeginAuth() {
-			EntityLib.User usr;
+			TwitrucUser usr;
 			if (String.IsNullOrEmpty(Session["nickname"] as String))
 				return RedirectToAction("LogOn", "Account", new ReturnUrl(this.HttpContext.Request.RawUrl));
 			else 

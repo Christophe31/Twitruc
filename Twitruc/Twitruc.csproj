@@ -137,7 +137,12 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Twitruc.DAL\Twitruc.DAL.csproj">
+      <Project>{89C7AE83-09F4-467A-9201-EB092F6922C5}</Project>
+      <Name>Twitruc.DAL</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using Twitruc.DAL;
 
 namespace Twitruc.Models {
 		#region Models
@@ -69,7 +70,7 @@ namespace Twitruc.Models {
 
 		#region Services
 		public class UserService {
-			private EntityLib.Model1Container db = new EntityLib.Model1Container();
+			private dbContainer db = new dbContainer();
 			public int MinPasswordLength {
 				get {
 					return 4;
@@ -79,7 +80,7 @@ namespace Twitruc.Models {
 			public bool ValidateUser(string nickname, string password) {
 				if (String.IsNullOrEmpty(nickname)) throw new ArgumentException("Value cannot be null or empty.", "userName");
 				if (String.IsNullOrEmpty(password)) throw new ArgumentException("Value cannot be null or empty.", "password");
-				return db.Users.Any(u => u.Nickname == nickname && u.Password == password);
+				return db.TwitrucUsers.Any(u => u.Nickname == nickname && u.Password == password);
 			}
 
 			public bool CreateUser(string userName, string nickname, string password, string email) {
@@ -93,20 +94,20 @@ namespace Twitruc.Models {
 					throw new ArgumentException("Password too short, need more than 4 chars.", "password");
 				if (String.IsNullOrEmpty(email))
 					throw new ArgumentException("Value cannot be null or empty.", "email");
-				if (db.Users.Any(u => u.Email == email))
+				if (db.TwitrucUsers.Any(u => u.Email == email))
 					throw new ArgumentException("This email is already registred.", "email");
-				if (db.Users.Any(u => u.Nickname == nickname))
+				if (db.TwitrucUsers.Any(u => u.Nickname == nickname))
 					throw new ArgumentException("This nickname is already registred.", "nickname");
 				try {
-					var u = new EntityLib.User();
+					var u = new TwitrucUser();
 					u.Name = userName;
 					u.Nickname = nickname;
 					u.Password = password;
 					u.Email = email;
-					u.TwitterId = "";
+					u.TwitterNick = "";
 					u.Token = "";
-					u.Secret = "";
-					db.Users.AddObject(u);
+					u.TokenSecret = "";
+					db.TwitrucUsers.AddObject(u);
 					db.SaveChanges();
 					return true;
 				} catch (Exception) {
@@ -120,7 +121,7 @@ namespace Twitruc.Models {
 				if (String.IsNullOrEmpty(newPassword)) throw new ArgumentException("Value cannot be null or empty.", "newPassword");
 
 				try {
-					db.Users.Where(u => u.Nickname == nickname).FirstOrDefault().Password = newPassword;
+					db.TwitrucUsers.Where(u => u.Nickname == nickname).FirstOrDefault().Password = newPassword;
 					db.SaveChanges();
 					return true;
 				} catch (Exception) {
@@ -138,14 +139,14 @@ namespace Twitruc.Models {
 				FormsAuthentication.SignOut();
 			}
 
-			public void UpdateTwitterAccount(OAuthTokenResponse atoken, EntityLib.User usr) {
-				usr.Secret = atoken.TokenSecret;
+			public void UpdateTwitterAccount(OAuthTokenResponse atoken, TwitrucUser usr) {
+				usr.TokenSecret = atoken.TokenSecret;
 				usr.Token = atoken.Token;
 				db.SaveChanges();
 			}
 
-			public EntityLib.User getUser(string s) {
-				return db.Users.First(u => u.Nickname == s);
+			public TwitrucUser getUser(string s) {
+				return db.TwitrucUsers.First(u => u.Nickname == s);
 			}
 		}
 		public class ReturnUrl {

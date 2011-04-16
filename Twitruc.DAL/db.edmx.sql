@@ -26,7 +26,7 @@ GO
 -- --------------------------------------------------
 
 IF OBJECT_ID(N'[dbo].[Users]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Users];
+    DROP TABLE [dbo].[TwitrucUsers];
 GO
 IF OBJECT_ID(N'[dbo].[Tweets]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Tweets];
@@ -37,7 +37,7 @@ GO
 -- --------------------------------------------------
 
 -- Creating table 'Users'
-CREATE TABLE [dbo].[Users] (
+CREATE TABLE [dbo].[TwitrucUsers] (
     [Id] uniqueidentifier default newid()  NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
     [Email] nvarchar(max)  NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE [dbo].[Tweets] (
     [TweetId] bigint  NOT NULL,
     [Content] nvarchar(145)  NOT NULL,
     [Date] datetime default getdate() NOT NULL,
-    [User_Id] uniqueidentifier  NULL
+    [TwitrucUser_Id] uniqueidentifier  NULL
 );
 GO
 
@@ -65,8 +65,8 @@ GO
 -- --------------------------------------------------
 
 -- Creating primary key on [Id] in table 'Users'
-ALTER TABLE [dbo].[Users]
-ADD CONSTRAINT [PK_Users]
+ALTER TABLE [dbo].[TwitrucUsers]
+ADD CONSTRAINT [PKTwitrucUsers]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -83,7 +83,7 @@ GO
 -- Creating foreign key on [User_Id] in table 'Tweets'
 ALTER TABLE [dbo].[Tweets]
 ADD CONSTRAINT [FK_UserEntity1]
-    FOREIGN KEY ([User_Id])
+    FOREIGN KEY ([TwitrucUser_Id])
     REFERENCES [dbo].[Users]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
