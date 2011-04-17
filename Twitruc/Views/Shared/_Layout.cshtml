@@ -1,4 +1,8 @@
 ﻿<!DOCTYPE html>
+@{
+	String cont = @ViewContext.RouteData.Values["controller"] as string;
+	String acti = @ViewContext.RouteData.Values["action"] as string;
+}
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -15,15 +19,11 @@
 	<div id="header">
 		<div id="menu">
 			<ul>
-				<li class="current_page_item"><a href="#">Home</a></li>
-				<li><a href="#">Blog</a></li>
-				<li><a href="#">Photos</a></li>
-				<li><a href="#">About</a></li>
-				<li><a href="#">Links</a></li>
-				<li><a href="#">Contact</a></li>
+				<li @if( cont == "Home" ){<text> class="current_page_item" </text>} ><a href="/">Home</a></li>				
+				<li @if( cont == "User" ){<text> class="current_page_item" </text>} ><a href="@Url.Action("LogOff", "User")">LogOut</a></li>
+				<li @if( cont == "Tweet" ){<text> class="current_page_item" </text>} ><a href="@Url.Action("Index", "Tweet")">Tweets</a></li>
 			</ul>
 		</div>
-		<div> @Html.Partial("_LogOnPartial") </div>
 		<div id="search">
 			<form method="get" action="">
 				<fieldset>
@@ -35,13 +35,12 @@
 	</div>
 </div>
 <div id="page">
-
+		<div style="float:right;"> @Html.Partial("_LogOnPartial") </div>
 	<div id="logo">
 		<h1><a href="#">@ViewBag.Title</a></h1>
 		<p><em>{ by <a href="http://www.freecsstemplates.org/">Free CSS Templates</a> }</em></p>
 	</div>
 	<hr />
-
 	<div id="content">
 	    @RenderBody()
 		<div class="post">

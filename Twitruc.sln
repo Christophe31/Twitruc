@@ -5,7 +5,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twitruc", "Twitruc\Twitruc.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twitruc.DAL", "Twitruc.DAL\Twitruc.DAL.csproj", "{89C7AE83-09F4-467A-9201-EB092F6922C5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwittrucTests", "TwittrucTests\TwittrucTests.csproj", "{479D8D65-B2B2-4F71-AF3F-D0B54FE67651}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5E5F7196-675D-47EF-8B2C-381727543D96}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+		Twitruc.vsmdi = Twitruc.vsmdi
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Twitruc.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -19,6 +31,10 @@ Global
 		{89C7AE83-09F4-467A-9201-EB092F6922C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89C7AE83-09F4-467A-9201-EB092F6922C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89C7AE83-09F4-467A-9201-EB092F6922C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{479D8D65-B2B2-4F71-AF3F-D0B54FE67651}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{479D8D65-B2B2-4F71-AF3F-D0B54FE67651}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{479D8D65-B2B2-4F71-AF3F-D0B54FE67651}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{479D8D65-B2B2-4F71-AF3F-D0B54FE67651}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

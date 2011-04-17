@@ -77,52 +77,8 @@ namespace Twitruc.Controllers
 			}
 
 			// If we got this far, something failed, redisplay form
-			ViewBag.PasswordLength = userManager.PassLength;
+			ViewBag.PasswordLength = UserService.PassLength;
 			return View(model);
-		}
-
-		// **************************************
-		// URL: /User/ChangePassword
-		// **************************************
-
-		public ActionResult ChangePassword() {
-			TwUser usr;
-			if (String.IsNullOrEmpty(Session["nickname"] as String))
-				return RedirectToAction("LogOn", "User", new ReturnUrl(this.HttpContext.Request.RawUrl));
-			else
-				usr = userManager.getUser(Session["nickname"] as string);
-
-			//ViewBag.PasswordLength = userManager.MinPasswordLength;
-			return View();
-		}
-
-		[HttpPost]
-		public ActionResult ChangePassword(ChangePasswordForm model) {
-			TwUser usr;
-			if (String.IsNullOrEmpty(Session["nickname"] as String))
-				return RedirectToAction("LogOn", "User", new ReturnUrl(this.HttpContext.Request.RawUrl));
-			else
-				usr = userManager.getUser(Session["nickname"] as string);
-
-			if (ModelState.IsValid) {
-				if (userManager.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword)) {
-					return RedirectToAction("ChangePasswordSuccess");
-				} else {
-					ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
-				}
-			}
-
-			// If we got this far, something failed, redisplay form
-			//ViewBag.PasswordLength = userManager.MinPasswordLength;
-			return View(model);
-		}
-
-		// **************************************
-		// URL: /User/ChangePasswordSuccess
-		// **************************************
-
-		public ActionResult ChangePasswordSuccess() {
-			return View();
 		}
 
 

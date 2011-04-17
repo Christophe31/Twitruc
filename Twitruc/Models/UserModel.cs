@@ -11,22 +11,6 @@ using Twitruc.DAL;
 
 namespace Twitruc.Models {
 		#region Models
-		public class ChangePasswordForm {
-			[Required]
-			[DataType(DataType.Password)]
-			[Display(Name = "Current password")]
-			public string OldPassword { get; set; }
-
-			[Required]
-			[DataType(DataType.Password)]
-			[Display(Name = "New password")]
-			public string NewPassword { get; set; }
-
-			[DataType(DataType.Password)]
-			[Display(Name = "Confirm new password")]
-			[Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
-			public string ConfirmPassword { get; set; }
-		}
 
 		public class LogOnForm {
 			[Required]
@@ -35,6 +19,7 @@ namespace Twitruc.Models {
 
 			[Required]
 			[DataType(DataType.Password)]
+			[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 4)]
 			[Display(Name = "Password")]
 			public string Password { get; set; }
 
@@ -58,6 +43,7 @@ namespace Twitruc.Models {
 
 			[Required]
 			[DataType(DataType.Password)]
+			[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 4)]
 			[Display(Name = "Password")]
 			public string Password { get; set; }
 
@@ -76,7 +62,7 @@ namespace Twitruc.Models {
 				if (String.IsNullOrEmpty(password)) throw new ArgumentException("Value cannot be null or empty.", "password");
 				return db.UserSet.Any(u => u.Nickname == nickname && u.Password == password);
 			}
-			public int PassLength { get { return 4; } }
+			public static int PassLength { get { return 4; } }
 
 			public bool CreateUser(string userName, string nickname, string password, string email) {
 				if (String.IsNullOrEmpty(userName))

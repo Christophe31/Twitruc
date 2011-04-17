@@ -157,7 +157,9 @@
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Views\Tweet\Index.cshtml" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
@@ -165,12 +167,11 @@
     <Content Include="Views\Shared\_LogOnPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\User\BeginAuth.cshtml" />
-    <Content Include="Views\User\Callback.cshtml" />
-    <Content Include="Views\User\ChangePassword.cshtml" />
-    <Content Include="Views\User\ChangePasswordSuccess.cshtml" />
     <Content Include="Views\User\LogOn.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\TweetDisplay.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

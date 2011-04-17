@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 04/17/2011 10:29:17
+-- Date Created: 04/17/2011 12:29:46
 -- Generated from EDMX file: C:\Users\Christophe\Documents\Dev\TP\Twitruc\Twitruc.DAL\db.edmx
 -- --------------------------------------------------
 
@@ -52,7 +52,7 @@ GO
 -- Creating table 'TweetSet'
 CREATE TABLE [dbo].[TweetSet] (
     [Id] bigint IDENTITY(1,1) NOT NULL,
-    [TweetId] bigint  NOT NULL,
+    [TweetId] decimal(18,0)  NOT NULL,
     [Content] nvarchar(145)  NOT NULL,
     [Date] datetime  NOT NULL,
     [AuthorNick] nvarchar(max)  NOT NULL,

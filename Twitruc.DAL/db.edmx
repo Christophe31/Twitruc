@@ -31,7 +31,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="TweetId" Type="bigint" Nullable="false" />
+    <Property Name="TweetId" Type="decimal" Nullable="false" />
     <Property Name="Content" Type="nvarchar" Nullable="false" MaxLength="145" />
     <Property Name="Date" Type="datetime" Nullable="false" />
     <Property Name="AuthorNick" Type="nvarchar(max)" Nullable="false" />
@@ -81,7 +81,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int64" Name="TweetId" Nullable="false" />
+          <Property Type="Decimal" Name="TweetId" Nullable="false" />
           <Property Type="String" Name="Content" Nullable="false" MaxLength="145" />
           <Property Type="DateTime" Name="Date" Nullable="false" />
           <Property Type="String" Name="AuthorNick" Nullable="false" />

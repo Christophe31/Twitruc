@@ -148,7 +148,7 @@ namespace Twitruc.DAL
         /// <param name="date">Initial value of the Date property.</param>
         /// <param name="authorNick">Initial value of the AuthorNick property.</param>
         /// <param name="sent">Initial value of the Sent property.</param>
-        public static Tweet CreateTweet(global::System.Int64 id, global::System.Int64 tweetId, global::System.String content, global::System.DateTime date, global::System.String authorNick, global::System.Boolean sent)
+        public static Tweet CreateTweet(global::System.Int64 id, global::System.Decimal tweetId, global::System.String content, global::System.DateTime date, global::System.String authorNick, global::System.Boolean sent)
         {
             Tweet tweet = new Tweet();
             tweet.Id = id;
@@ -195,7 +195,7 @@ namespace Twitruc.DAL
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 TweetId
+        public global::System.Decimal TweetId
         {
             get
             {
@@ -210,8 +210,8 @@ namespace Twitruc.DAL
                 OnTweetIdChanged();
             }
         }
-        private global::System.Int64 _TweetId;
-        partial void OnTweetIdChanging(global::System.Int64 value);
+        private global::System.Decimal _TweetId;
+        partial void OnTweetIdChanging(global::System.Decimal value);
         partial void OnTweetIdChanged();
     
         /// <summary>
