@@ -36,7 +36,8 @@
     <Property Name="Date" Type="datetime" Nullable="false" />
     <Property Name="AuthorNick" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Sent" Type="bit" Nullable="false" />
-    <Property Name="TwitrucUsers_Id" Type="bigint" Nullable="true" />
+    <Property Name="Public" Type="bit" Nullable="false" />
+    <Property Name="TwitrucUser_Id" Type="bigint" Nullable="true" />
   </EntityType>
   <Association Name="TweetTwitrucUser">
     <End Role="Tweet" Type="db.Store.TweetSet" Multiplicity="*" />
@@ -46,7 +47,7 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="Tweet">
-        <PropertyRef Name="TwitrucUsers_Id" />
+        <PropertyRef Name="TwitrucUser_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -74,7 +75,7 @@
           <Property Type="String" Name="Token" Nullable="false" />
           <Property Type="String" Name="TokenSecret" Nullable="false" />
           <Property Type="String" Name="TwitterNick" Nullable="false" />
-          <NavigationProperty Name="Tweet" Relationship="db.TweetTwitrucUser" FromRole="TwitrucUser" ToRole="Tweet" />
+          <NavigationProperty Name="Tweets" Relationship="db.TweetTwitrucUser" FromRole="TwitrucUser" ToRole="Tweet" />
         </EntityType>
         <EntityType Name="Tweet">
           <Key>
@@ -85,8 +86,9 @@
           <Property Type="String" Name="Content" Nullable="false" MaxLength="145" />
           <Property Type="DateTime" Name="Date" Nullable="false" />
           <Property Type="String" Name="AuthorNick" Nullable="false" />
-          <NavigationProperty Name="TwitrucUsers" Relationship="db.TweetTwitrucUser" FromRole="Tweet" ToRole="TwitrucUser" />
+          <NavigationProperty Name="TwitrucUser" Relationship="db.TweetTwitrucUser" FromRole="Tweet" ToRole="TwitrucUser" />
           <Property Type="Boolean" Name="Sent" Nullable="false" />
+          <Property Type="Boolean" Name="Public" Nullable="false" />
         </EntityType>
         <Association Name="TweetTwitrucUser">
           <End Type="db.Tweet" Role="Tweet" Multiplicity="*" />
@@ -121,17 +123,18 @@
           <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="AuthorNick" ColumnName="AuthorNick" />
           <ScalarProperty Name="Sent" ColumnName="Sent" />
+          <ScalarProperty Name="Public" ColumnName="Public" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <AssociationSetMapping Name="TweetTwitrucUser" TypeName="db.TweetTwitrucUser" StoreEntitySet="TweetSet">
       <EndProperty Name="TwitrucUser">
-        <ScalarProperty Name="Id" ColumnName="TwitrucUsers_Id" />
+        <ScalarProperty Name="Id" ColumnName="TwitrucUser_Id" />
       </EndProperty>
       <EndProperty Name="Tweet">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
-      <Condition ColumnName="TwitrucUsers_Id" IsNull="false" />
+      <Condition ColumnName="TwitrucUser_Id" IsNull="false" />
     </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
@@ -153,10 +156,10 @@
     <edmx:Diagrams>
       <Diagram Name="db" >
         <EntityTypeShape EntityType="db.TwUser" Width="1.5" PointX="0.75" PointY="1" Height="2.7494921874999996" />
-        <EntityTypeShape EntityType="db.Tweet" Width="1.5" PointX="4.25" PointY="1.625" Height="2.364889322916667" />
+        <EntityTypeShape EntityType="db.Tweet" Width="1.5" PointX="3.875" PointY="1.125" Height="2.5571907552083331" />
         <AssociationConnector Association="db.TweetTwitrucUser">
-          <ConnectorPoint PointX="4.25" PointY="2.68724609375" />
-          <ConnectorPoint PointX="2.25" PointY="2.68724609375" />
+          <ConnectorPoint PointX="3.875" PointY="2.4035953776041667" />
+          <ConnectorPoint PointX="2.25" PointY="2.4035953776041667" />
         </AssociationConnector>
       </Diagram>
     </edmx:Diagrams>

@@ -148,7 +148,8 @@ namespace Twitruc.DAL
         /// <param name="date">Initial value of the Date property.</param>
         /// <param name="authorNick">Initial value of the AuthorNick property.</param>
         /// <param name="sent">Initial value of the Sent property.</param>
-        public static Tweet CreateTweet(global::System.Int64 id, global::System.Decimal tweetId, global::System.String content, global::System.DateTime date, global::System.String authorNick, global::System.Boolean sent)
+        /// <param name="public">Initial value of the Public property.</param>
+        public static Tweet CreateTweet(global::System.Int64 id, global::System.Decimal tweetId, global::System.String content, global::System.DateTime date, global::System.String authorNick, global::System.Boolean sent, global::System.Boolean @public)
         {
             Tweet tweet = new Tweet();
             tweet.Id = id;
@@ -157,6 +158,7 @@ namespace Twitruc.DAL
             tweet.Date = date;
             tweet.AuthorNick = authorNick;
             tweet.Sent = sent;
+            tweet.Public = @public;
             return tweet;
         }
 
@@ -309,6 +311,30 @@ namespace Twitruc.DAL
         private global::System.Boolean _Sent;
         partial void OnSentChanging(global::System.Boolean value);
         partial void OnSentChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean Public
+        {
+            get
+            {
+                return _Public;
+            }
+            set
+            {
+                OnPublicChanging(value);
+                ReportPropertyChanging("Public");
+                _Public = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Public");
+                OnPublicChanged();
+            }
+        }
+        private global::System.Boolean _Public;
+        partial void OnPublicChanging(global::System.Boolean value);
+        partial void OnPublicChanged();
 
         #endregion
     
@@ -321,7 +347,7 @@ namespace Twitruc.DAL
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("db", "TweetTwitrucUser", "TwitrucUser")]
-        public TwUser TwitrucUsers
+        public TwUser TwitrucUser
         {
             get
             {
@@ -337,7 +363,7 @@ namespace Twitruc.DAL
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<TwUser> TwitrucUsersReference
+        public EntityReference<TwUser> TwitrucUserReference
         {
             get
             {
@@ -599,7 +625,7 @@ namespace Twitruc.DAL
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("db", "TweetTwitrucUser", "Tweet")]
-        public EntityCollection<Tweet> Tweet
+        public EntityCollection<Tweet> Tweets
         {
             get
             {

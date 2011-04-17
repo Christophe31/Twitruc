@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 04/17/2011 12:29:46
+-- Date Created: 04/17/2011 19:35:44
 -- Generated from EDMX file: C:\Users\Christophe\Documents\Dev\TP\Twitruc\Twitruc.DAL\db.edmx
 -- --------------------------------------------------
 
@@ -57,7 +57,8 @@ CREATE TABLE [dbo].[TweetSet] (
     [Date] datetime  NOT NULL,
     [AuthorNick] nvarchar(max)  NOT NULL,
     [Sent] bit  NOT NULL,
-    [TwitrucUsers_Id] bigint  NULL
+    [Public] bit  NOT NULL,
+    [TwitrucUser_Id] bigint  NULL
 );
 GO
 
@@ -81,10 +82,10 @@ GO
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
 
--- Creating foreign key on [TwitrucUsers_Id] in table 'TweetSet'
+-- Creating foreign key on [TwitrucUser_Id] in table 'TweetSet'
 ALTER TABLE [dbo].[TweetSet]
 ADD CONSTRAINT [FK_TweetTwitrucUser]
-    FOREIGN KEY ([TwitrucUsers_Id])
+    FOREIGN KEY ([TwitrucUser_Id])
     REFERENCES [dbo].[UserSet]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -92,7 +93,7 @@ ADD CONSTRAINT [FK_TweetTwitrucUser]
 -- Creating non-clustered index for FOREIGN KEY 'FK_TweetTwitrucUser'
 CREATE INDEX [IX_FK_TweetTwitrucUser]
 ON [dbo].[TweetSet]
-    ([TwitrucUsers_Id]);
+    ([TwitrucUser_Id]);
 GO
 
 -- --------------------------------------------------

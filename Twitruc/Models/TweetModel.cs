@@ -15,25 +15,23 @@ namespace Twitruc.Models {
 	public class TweetModel {
 		[Required]
 		[DataType(DataType.Text)]
-		[StringLength(140, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 1)]
+		[StringLength(140, ErrorMessage = "The {0} must have less than {1} characters.", MinimumLength = 1)]
 		[Display(Name = "Tweet")]
 		public string Content { get; set; }
-
 	}
 	public class TweetExtended {
-		public TweetExtended() { }
 		public TweetExtended(Twitterizer.TwitterStatus st) {
 			using (var db = new dbContainer()) {
-				
 				try{
-					DataBase = db.TweetSet.First(t => t.TweetId == st.Id);
+					this.DataBase = db.TweetSet.First(t => t.TweetId == st.Id);
 				} catch(InvalidOperationException){
-					DataBase = new Tweet();
+					this.DataBase = new Twitruc.DAL.Tweet();
 					DataBase.Content = st.Text;
 					DataBase.AuthorNick = st.User.ScreenName;
 					DataBase.Date = st.CreatedDate;
 					DataBase.TweetId = st.Id;
-					DataBase.TwitrucUsers = null;
+					DataBase.TwitrucUser = null;
+					DataBase.Public = ! st.User.IsProtected;
 					db.TweetSet.AddObject(DataBase);
 					db.SaveChanges();
 				}
@@ -56,19 +54,33 @@ namespace Twitruc.Models {
 	public class TweetService {
 		private dbContainer db = new dbContainer();
 
-		public bool CreateTweet(string content, TwUser u) {
+		public Tweet CreateTweet(string content, TwUser u) {
 			if (String.IsNullOrEmpty(content))
 				throw new ArgumentException("Value cannot be null or empty.", "Content");
-			try {
-				var t = new Tweet();
-				t.Content = content;
-				//t.User = 
-				db.TweetSet.AddObject(t);
-				db.SaveChanges();
-				return true;
-			} catch (Exception) {
-				return false;
-			}
+			var t = new Tweet();
+			t.Content = content;
+			t.TwitrucUser = u;
+			t.AuthorNick = u.TwitterNick;
+			t.Date = DateTime.Now;
+			t.Sent = false;
+			t.Public = false;
+			db.TweetSet.AddObject(t);
+			db.SaveChanges();
+			return t;
+		}
+		public void SyncTweets() {
+			db.UserSet.Where(u => !u.Tweets.Any(t => !t.Sent))
+				.ToArray().Select(u => {
+					var tok = TwitrucHelpers.getTokens(u);
+					return u.Tweets.OrderBy(t=>t.Date).Select(t => {
+						Twitterizer.TwitterResponse<Twitterizer.TwitterStatus> userResponse = Twitterizer.TwitterStatus.Update(tok, t.Content);
+						t.TweetId = userResponse.ResponseObject.Id;
+						t.Sent = true;
+						t.Public = ! userResponse.ResponseObject.User.IsProtected;
+						t.Date = userResponse.ResponseObject.CreatedDate;
+						return t;
+					});
+				});
 		}
 
 	}
