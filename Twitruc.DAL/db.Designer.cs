@@ -18,7 +18,7 @@ using System.Runtime.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("db", "UserEntity1", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Twitruc.DAL.TwitrucUser), "Tweet", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Twitruc.DAL.Tweet))]
+[assembly: EdmRelationshipAttribute("db", "TweetTwitrucUser", "Tweet", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Twitruc.DAL.Tweet), "TwitrucUser", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Twitruc.DAL.TwUser))]
 
 #endregion
 
@@ -73,52 +73,52 @@ namespace Twitruc.DAL
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<TwitrucUser> TwitrucUsers
+        public ObjectSet<TwUser> UserSet
         {
             get
             {
-                if ((_TwitrucUsers == null))
+                if ((_UserSet == null))
                 {
-                    _TwitrucUsers = base.CreateObjectSet<TwitrucUser>("TwitrucUsers");
+                    _UserSet = base.CreateObjectSet<TwUser>("UserSet");
                 }
-                return _TwitrucUsers;
+                return _UserSet;
             }
         }
-        private ObjectSet<TwitrucUser> _TwitrucUsers;
+        private ObjectSet<TwUser> _UserSet;
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<Tweet> Tweets
+        public ObjectSet<Tweet> TweetSet
         {
             get
             {
-                if ((_Tweets == null))
+                if ((_TweetSet == null))
                 {
-                    _Tweets = base.CreateObjectSet<Tweet>("Tweets");
+                    _TweetSet = base.CreateObjectSet<Tweet>("TweetSet");
                 }
-                return _Tweets;
+                return _TweetSet;
             }
         }
-        private ObjectSet<Tweet> _Tweets;
+        private ObjectSet<Tweet> _TweetSet;
 
         #endregion
         #region AddTo Methods
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the TwitrucUsers EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the UserSet EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddToTwitrucUsers(TwitrucUser twitrucUser)
+        public void AddToUserSet(TwUser twUser)
         {
-            base.AddObject("TwitrucUsers", twitrucUser);
+            base.AddObject("UserSet", twUser);
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the Tweets EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the TweetSet EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddToTweets(Tweet tweet)
+        public void AddToTweetSet(Tweet tweet)
         {
-            base.AddObject("Tweets", tweet);
+            base.AddObject("TweetSet", tweet);
         }
 
         #endregion
@@ -146,13 +146,17 @@ namespace Twitruc.DAL
         /// <param name="tweetId">Initial value of the TweetId property.</param>
         /// <param name="content">Initial value of the Content property.</param>
         /// <param name="date">Initial value of the Date property.</param>
-        public static Tweet CreateTweet(global::System.Guid id, global::System.Int64 tweetId, global::System.String content, global::System.DateTime date)
+        /// <param name="authorNick">Initial value of the AuthorNick property.</param>
+        /// <param name="sent">Initial value of the Sent property.</param>
+        public static Tweet CreateTweet(global::System.Int64 id, global::System.Int64 tweetId, global::System.String content, global::System.DateTime date, global::System.String authorNick, global::System.Boolean sent)
         {
             Tweet tweet = new Tweet();
             tweet.Id = id;
             tweet.TweetId = tweetId;
             tweet.Content = content;
             tweet.Date = date;
+            tweet.AuthorNick = authorNick;
+            tweet.Sent = sent;
             return tweet;
         }
 
@@ -164,7 +168,7 @@ namespace Twitruc.DAL
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Guid Id
+        public global::System.Int64 Id
         {
             get
             {
@@ -182,8 +186,8 @@ namespace Twitruc.DAL
                 }
             }
         }
-        private global::System.Guid _Id;
-        partial void OnIdChanging(global::System.Guid value);
+        private global::System.Int64 _Id;
+        partial void OnIdChanging(global::System.Int64 value);
         partial void OnIdChanged();
     
         /// <summary>
@@ -257,6 +261,54 @@ namespace Twitruc.DAL
         private global::System.DateTime _Date;
         partial void OnDateChanging(global::System.DateTime value);
         partial void OnDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String AuthorNick
+        {
+            get
+            {
+                return _AuthorNick;
+            }
+            set
+            {
+                OnAuthorNickChanging(value);
+                ReportPropertyChanging("AuthorNick");
+                _AuthorNick = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("AuthorNick");
+                OnAuthorNickChanged();
+            }
+        }
+        private global::System.String _AuthorNick;
+        partial void OnAuthorNickChanging(global::System.String value);
+        partial void OnAuthorNickChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean Sent
+        {
+            get
+            {
+                return _Sent;
+            }
+            set
+            {
+                OnSentChanging(value);
+                ReportPropertyChanging("Sent");
+                _Sent = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Sent");
+                OnSentChanged();
+            }
+        }
+        private global::System.Boolean _Sent;
+        partial void OnSentChanging(global::System.Boolean value);
+        partial void OnSentChanged();
 
         #endregion
     
@@ -268,16 +320,16 @@ namespace Twitruc.DAL
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("db", "UserEntity1", "User")]
-        public TwitrucUser User
+        [EdmRelationshipNavigationPropertyAttribute("db", "TweetTwitrucUser", "TwitrucUser")]
+        public TwUser TwitrucUsers
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TwitrucUser>("db.UserEntity1", "User").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TwUser>("db.TweetTwitrucUser", "TwitrucUser").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TwitrucUser>("db.UserEntity1", "User").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TwUser>("db.TweetTwitrucUser", "TwitrucUser").Value = value;
             }
         }
         /// <summary>
@@ -285,17 +337,17 @@ namespace Twitruc.DAL
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<TwitrucUser> UserReference
+        public EntityReference<TwUser> TwitrucUsersReference
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TwitrucUser>("db.UserEntity1", "User");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TwUser>("db.TweetTwitrucUser", "TwitrucUser");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<TwitrucUser>("db.UserEntity1", "User", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<TwUser>("db.TweetTwitrucUser", "TwitrucUser", value);
                 }
             }
         }
@@ -306,15 +358,15 @@ namespace Twitruc.DAL
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="db", Name="TwitrucUser")]
+    [EdmEntityTypeAttribute(NamespaceName="db", Name="TwUser")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class TwitrucUser : EntityObject
+    public partial class TwUser : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new TwitrucUser object.
+        /// Create a new TwUser object.
         /// </summary>
         /// <param name="id">Initial value of the Id property.</param>
         /// <param name="name">Initial value of the Name property.</param>
@@ -324,20 +376,18 @@ namespace Twitruc.DAL
         /// <param name="token">Initial value of the Token property.</param>
         /// <param name="tokenSecret">Initial value of the TokenSecret property.</param>
         /// <param name="twitterNick">Initial value of the TwitterNick property.</param>
-        /// <param name="inscription">Initial value of the Inscription property.</param>
-        public static TwitrucUser CreateTwitrucUser(global::System.Guid id, global::System.String name, global::System.String email, global::System.String nickname, global::System.String password, global::System.String token, global::System.String tokenSecret, global::System.String twitterNick, global::System.DateTime inscription)
+        public static TwUser CreateTwUser(global::System.Int64 id, global::System.String name, global::System.String email, global::System.String nickname, global::System.String password, global::System.String token, global::System.String tokenSecret, global::System.String twitterNick)
         {
-            TwitrucUser twitrucUser = new TwitrucUser();
-            twitrucUser.Id = id;
-            twitrucUser.Name = name;
-            twitrucUser.Email = email;
-            twitrucUser.Nickname = nickname;
-            twitrucUser.Password = password;
-            twitrucUser.Token = token;
-            twitrucUser.TokenSecret = tokenSecret;
-            twitrucUser.TwitterNick = twitterNick;
-            twitrucUser.Inscription = inscription;
-            return twitrucUser;
+            TwUser twUser = new TwUser();
+            twUser.Id = id;
+            twUser.Name = name;
+            twUser.Email = email;
+            twUser.Nickname = nickname;
+            twUser.Password = password;
+            twUser.Token = token;
+            twUser.TokenSecret = tokenSecret;
+            twUser.TwitterNick = twitterNick;
+            return twUser;
         }
 
         #endregion
@@ -348,7 +398,7 @@ namespace Twitruc.DAL
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Guid Id
+        public global::System.Int64 Id
         {
             get
             {
@@ -366,8 +416,8 @@ namespace Twitruc.DAL
                 }
             }
         }
-        private global::System.Guid _Id;
-        partial void OnIdChanging(global::System.Guid value);
+        private global::System.Int64 _Id;
+        partial void OnIdChanging(global::System.Int64 value);
         partial void OnIdChanged();
     
         /// <summary>
@@ -537,30 +587,6 @@ namespace Twitruc.DAL
         private global::System.String _TwitterNick;
         partial void OnTwitterNickChanging(global::System.String value);
         partial void OnTwitterNickChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.DateTime Inscription
-        {
-            get
-            {
-                return _Inscription;
-            }
-            set
-            {
-                OnInscriptionChanging(value);
-                ReportPropertyChanging("Inscription");
-                _Inscription = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("Inscription");
-                OnInscriptionChanged();
-            }
-        }
-        private global::System.DateTime _Inscription;
-        partial void OnInscriptionChanging(global::System.DateTime value);
-        partial void OnInscriptionChanged();
 
         #endregion
     
@@ -572,18 +598,18 @@ namespace Twitruc.DAL
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("db", "UserEntity1", "Tweet")]
-        public EntityCollection<Tweet> Entity1
+        [EdmRelationshipNavigationPropertyAttribute("db", "TweetTwitrucUser", "Tweet")]
+        public EntityCollection<Tweet> Tweet
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Tweet>("db.UserEntity1", "Tweet");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Tweet>("db.TweetTwitrucUser", "Tweet");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Tweet>("db.UserEntity1", "Tweet", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Tweet>("db.TweetTwitrucUser", "Tweet", value);
                 }
             }
         }

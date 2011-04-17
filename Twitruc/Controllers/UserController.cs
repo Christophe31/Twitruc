@@ -63,7 +63,7 @@ namespace Twitruc.Controllers
 		// **************************************
 
 		public ActionResult Register() {
-			ViewBag.PasswordLength = userManager.MinPasswordLength;
+//			ViewBag.PasswordLength = userManager.MinPasswordLength;
 			return View();
 		}
 
@@ -72,12 +72,12 @@ namespace Twitruc.Controllers
 			if (ModelState.IsValid) {
 				if (userManager.CreateUser(model.Name, model.Nickname, model.Password, model.Email)) {
 					userManager.SignIn(model.Nickname, false /* createPersistentCookie */);
-					return RedirectToAction("Index", "Home");
+					return RedirectToAction( "TwitterAuth", "User");
 				}
 			}
 
 			// If we got this far, something failed, redisplay form
-			ViewBag.PasswordLength = userManager.MinPasswordLength;
+			ViewBag.PasswordLength = userManager.PassLength;
 			return View(model);
 		}
 
@@ -86,21 +86,21 @@ namespace Twitruc.Controllers
 		// **************************************
 
 		public ActionResult ChangePassword() {
-			TwitrucUser usr;
+			TwUser usr;
 			if (String.IsNullOrEmpty(Session["nickname"] as String))
-				return RedirectToAction("LogOn", "Account", new ReturnUrl(this.HttpContext.Request.RawUrl));
+				return RedirectToAction("LogOn", "User", new ReturnUrl(this.HttpContext.Request.RawUrl));
 			else
 				usr = userManager.getUser(Session["nickname"] as string);
 
-			ViewBag.PasswordLength = userManager.MinPasswordLength;
+			//ViewBag.PasswordLength = userManager.MinPasswordLength;
 			return View();
 		}
 
 		[HttpPost]
 		public ActionResult ChangePassword(ChangePasswordForm model) {
-			TwitrucUser usr;
+			TwUser usr;
 			if (String.IsNullOrEmpty(Session["nickname"] as String))
-				return RedirectToAction("LogOn", "Account", new ReturnUrl(this.HttpContext.Request.RawUrl));
+				return RedirectToAction("LogOn", "User", new ReturnUrl(this.HttpContext.Request.RawUrl));
 			else
 				usr = userManager.getUser(Session["nickname"] as string);
 
@@ -113,7 +113,7 @@ namespace Twitruc.Controllers
 			}
 
 			// If we got this far, something failed, redisplay form
-			ViewBag.PasswordLength = userManager.MinPasswordLength;
+			//ViewBag.PasswordLength = userManager.MinPasswordLength;
 			return View(model);
 		}
 
@@ -125,35 +125,27 @@ namespace Twitruc.Controllers
 			return View();
 		}
 
+
 		// **************************************
-		// URL: /User/Callback
+		// URL: /User/TwitterAuth
 		// **************************************
 
-		public ActionResult Callback() {
-			TwitrucUser usr;
+		public ActionResult TwitterAuth() {
+			TwUser usr;
 			if (String.IsNullOrEmpty(Session["nickname"] as String))
-				return RedirectToAction("LogOn", "Account", new ReturnUrl(this.HttpContext.Request.RawUrl));
-			else
-				usr = userManager.getUser(Session["nickname"] as string);
-
-			var atoken = OAuthUtility.GetAccessTokenDuringCallback(ConfigurationManager.AppSettings["consumerkey"], ConfigurationManager.AppSettings["consumersecret"]);
-			this.userManager.UpdateTwitterAccount(atoken,usr);
-
-			return RedirectToAction("About", "Home");
-		}
-
-		// **************************************
-		// URL: /User/BeginAuth
-		// **************************************
-
-		public ActionResult BeginAuth() {
-			TwitrucUser usr;
-			if (String.IsNullOrEmpty(Session["nickname"] as String))
-				return RedirectToAction("LogOn", "Account", new ReturnUrl(this.HttpContext.Request.RawUrl));
+				return RedirectToAction("LogOn", "User", new ReturnUrl(this.HttpContext.Request.RawUrl));
 			else 
 				usr = userManager.getUser(Session["nickname"] as string);
 
-			var tokens = OAuthUtility.GetRequestToken(ConfigurationManager.AppSettings["consumerkey"], ConfigurationManager.AppSettings["consumersecret"], "http://localhost/Account/Callback");
+			if (! String.IsNullOrEmpty(HttpContext.Request.QueryString["oauth_token"]))
+			{
+				var atoken = OAuthUtility.GetAccessTokenDuringCallback(ConfigurationManager.AppSettings["consumerkey"], ConfigurationManager.AppSettings["consumersecret"]);
+				this.userManager.UpdateTwitterAccount(atoken, usr);
+
+				return RedirectToAction("Tweets", "list");
+			}
+
+			var tokens = OAuthUtility.GetRequestToken(ConfigurationManager.AppSettings["consumerkey"], ConfigurationManager.AppSettings["consumersecret"], "http://localhost/User/TwitterAuth");
 			var link = OAuthUtility.BuildAuthorizationUri(tokens.Token).AbsoluteUri;
 
 			return this.Redirect(link);

@@ -6,24 +6,67 @@
     <edmx:StorageModels>
     <Schema Namespace="db.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
   <EntityContainer Name="dbStoreContainer">
+    <EntitySet Name="UserSet" EntityType="db.Store.UserSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TweetSet" EntityType="db.Store.TweetSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="TweetTwitrucUser" Association="db.Store.TweetTwitrucUser">
+      <End Role="Tweet" EntitySet="TweetSet" />
+      <End Role="TwitrucUser" EntitySet="UserSet" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="UserSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Nickname" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Token" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="TokenSecret" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="TwitterNick" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TweetSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TweetId" Type="bigint" Nullable="false" />
+    <Property Name="Content" Type="nvarchar" Nullable="false" MaxLength="145" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="AuthorNick" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Sent" Type="bit" Nullable="false" />
+    <Property Name="TwitrucUsers_Id" Type="bigint" Nullable="true" />
+  </EntityType>
+  <Association Name="TweetTwitrucUser">
+    <End Role="Tweet" Type="db.Store.TweetSet" Multiplicity="*" />
+    <End Role="TwitrucUser" Type="db.Store.UserSet" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="TwitrucUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Tweet">
+        <PropertyRef Name="TwitrucUsers_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="db" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
         <EntityContainer Name="dbContainer" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="TwitrucUsers" EntityType="db.TwitrucUser" />
-          <EntitySet Name="Tweets" EntityType="db.Tweet" />
-          <AssociationSet Name="UserEntity1" Association="db.UserEntity1">
-            <End Role="User" EntitySet="TwitrucUsers" />
-            <End Role="Tweet" EntitySet="Tweets" />
+          <EntitySet Name="UserSet" EntityType="db.TwUser" />
+          <EntitySet Name="TweetSet" EntityType="db.Tweet" />
+          <AssociationSet Name="TweetTwitrucUser" Association="db.TweetTwitrucUser">
+            <End Role="Tweet" EntitySet="TweetSet" />
+            <End Role="TwitrucUser" EntitySet="UserSet" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="TwitrucUser">
+        <EntityType Name="TwUser">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Guid" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" />
           <Property Type="String" Name="Email" Nullable="false" />
           <Property Type="String" Name="Nickname" Nullable="false" />
@@ -31,22 +74,23 @@
           <Property Type="String" Name="Token" Nullable="false" />
           <Property Type="String" Name="TokenSecret" Nullable="false" />
           <Property Type="String" Name="TwitterNick" Nullable="false" />
-          <NavigationProperty Name="Entity1" Relationship="db.UserEntity1" FromRole="User" ToRole="Tweet" />
-          <Property Type="DateTime" Name="Inscription" Nullable="false" />
+          <NavigationProperty Name="Tweet" Relationship="db.TweetTwitrucUser" FromRole="TwitrucUser" ToRole="Tweet" />
         </EntityType>
         <EntityType Name="Tweet">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Guid" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int64" Name="TweetId" Nullable="false" />
           <Property Type="String" Name="Content" Nullable="false" MaxLength="145" />
           <Property Type="DateTime" Name="Date" Nullable="false" />
-          <NavigationProperty Name="User" Relationship="db.UserEntity1" FromRole="Tweet" ToRole="User" />
+          <Property Type="String" Name="AuthorNick" Nullable="false" />
+          <NavigationProperty Name="TwitrucUsers" Relationship="db.TweetTwitrucUser" FromRole="Tweet" ToRole="TwitrucUser" />
+          <Property Type="Boolean" Name="Sent" Nullable="false" />
         </EntityType>
-        <Association Name="UserEntity1">
-          <End Type="db.TwitrucUser" Role="User" Multiplicity="0..1" />
+        <Association Name="TweetTwitrucUser">
           <End Type="db.Tweet" Role="Tweet" Multiplicity="*" />
+          <End Type="db.TwUser" Role="TwitrucUser" Multiplicity="0..1" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -54,6 +98,41 @@
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="dbStoreContainer" CdmEntityContainer="dbContainer">
+    <EntitySetMapping Name="UserSet">
+      <EntityTypeMapping TypeName="IsTypeOf(db.TwUser)">
+        <MappingFragment StoreEntitySet="UserSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Nickname" ColumnName="Nickname" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Token" ColumnName="Token" />
+          <ScalarProperty Name="TokenSecret" ColumnName="TokenSecret" />
+          <ScalarProperty Name="TwitterNick" ColumnName="TwitterNick" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TweetSet">
+      <EntityTypeMapping TypeName="IsTypeOf(db.Tweet)">
+        <MappingFragment StoreEntitySet="TweetSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="TweetId" ColumnName="TweetId" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="AuthorNick" ColumnName="AuthorNick" />
+          <ScalarProperty Name="Sent" ColumnName="Sent" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="TweetTwitrucUser" TypeName="db.TweetTwitrucUser" StoreEntitySet="TweetSet">
+      <EndProperty Name="TwitrucUser">
+        <ScalarProperty Name="Id" ColumnName="TwitrucUsers_Id" />
+      </EndProperty>
+      <EndProperty Name="Tweet">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="TwitrucUsers_Id" IsNull="false" />
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
@@ -73,11 +152,11 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram Name="db" >
-        <EntityTypeShape EntityType="db.TwitrucUser" Width="1.5" PointX="0.75" PointY="1" Height="2.9417936197916665" />
-        <EntityTypeShape EntityType="db.Tweet" Width="1.5" PointX="6.7654594624254187" PointY="6.21667884579705" />
-        <AssociationConnector Association="db.UserEntity1" >
-          <ConnectorPoint PointX="2.25" PointY="2.3651432291666667" />
-          <ConnectorPoint PointX="3" PointY="2.3651432291666667" />
+        <EntityTypeShape EntityType="db.TwUser" Width="1.5" PointX="0.75" PointY="1" Height="2.7494921874999996" />
+        <EntityTypeShape EntityType="db.Tweet" Width="1.5" PointX="4.25" PointY="1.625" Height="2.364889322916667" />
+        <AssociationConnector Association="db.TweetTwitrucUser">
+          <ConnectorPoint PointX="4.25" PointY="2.68724609375" />
+          <ConnectorPoint PointX="2.25" PointY="2.68724609375" />
         </AssociationConnector>
       </Diagram>
     </edmx:Diagrams>

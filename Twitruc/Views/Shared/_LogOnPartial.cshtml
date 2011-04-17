@@ -1,0 +1,7 @@
+﻿@if(! String.IsNullOrEmpty(Session["nickname"] as string)) {
+    <text>Welcome <b>@Context.User.Identity.Name</b>!
+    [ @Html.ActionLink("Log Off", "LogOff", "User") ]</text>
+}
+else {
+    @:[ @Html.ActionLink("Log On", "LogOn", "User") ]
+}
