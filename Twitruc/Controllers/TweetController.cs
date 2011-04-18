@@ -71,7 +71,21 @@ namespace Twitruc.Controllers
 			return View();
 		}
 
-		public ActionResult FromUser() { return View(); }
+		public ActionResult FromUser(string id) {
+			TwUser usr;
+			if (String.IsNullOrEmpty(Session["nickname"] as String))
+				return RedirectToAction("LogOn", "User", new ReturnUrl(this.HttpContext.Request.RawUrl));
+			else
+				usr = userManager.getUser(Session["nickname"] as string);
+
+			var tokens = TwitrucHelpers.getTokens(usr);
+			var o = new Twitterizer.UserTimelineOptions();
+			o.ScreenName = id;
+			o.Count = 50;
+			Twitterizer.TwitterResponse<Twitterizer.TwitterStatusCollection> userResponse = Twitterizer.TwitterTimeline.UserTimeline(tokens,o);
+			ViewBag.Tweets = userResponse.ResponseObject.Select(st => new TweetExtended(st)).ToList();
+			return View();
+		}
 
     }
 }

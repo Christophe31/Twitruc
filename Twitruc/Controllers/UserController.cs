@@ -98,7 +98,7 @@ namespace Twitruc.Controllers
 				var atoken = OAuthUtility.GetAccessTokenDuringCallback(ConfigurationManager.AppSettings["consumerkey"], ConfigurationManager.AppSettings["consumersecret"]);
 				this.userManager.UpdateTwitterAccount(atoken, usr);
 
-				return RedirectToAction("Tweets", "list");
+				return RedirectToAction("Index","Tweet");
 			}
 
 			var tokens = OAuthUtility.GetRequestToken(ConfigurationManager.AppSettings["consumerkey"], ConfigurationManager.AppSettings["consumersecret"], "http://localhost/User/TwitterAuth");
