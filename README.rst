@@ -35,3 +35,7 @@ You may use this code under the WTFPL_ licence therms:
 
 .. _Github: http://github.com/Christophe31/SupInBlog
 
+.. toctree::
+    :maxdepth: 2
+
+    presentation
