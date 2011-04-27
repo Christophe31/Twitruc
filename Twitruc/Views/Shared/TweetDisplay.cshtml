@@ -1,0 +1,10 @@
+﻿@model Twitruc.Models.TweetExtended
+@using Twitruc.Models;
+
+<div>
+	<img src="@Model.Tweeter.User.ProfileImageLocation" alt="user_avatar" style="float:left;" /> 
+	<div>@Html.Raw(Html.Encode(Model.Tweeter.Text).Urlify())</div> 
+	<p class="meta">
+		<em>{<a href="/Tweet/FromUser/@Model.Tweeter.User.ScreenName"><b>@@@Model.Tweeter.User.ScreenName</b></a> the <i>@Model.Tweeter.CreatedDate</i>}</em>
+	</p>
+</div>
