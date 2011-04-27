@@ -3,12 +3,12 @@ RIA technologies, Presentation
 
 ----
 
-Que sont les RIA
-----------------
+Que sont les RIAs
+-----------------
 
 L'accronyme RIA est issu d'un rapport de macromédia qui a clairement été un des
 initiateurs de cette tendance. Il est l'accronyme de Rich Internet Application
-que l'on pourrait traduire litérallement Application web enrichie. Les RIA
+que l'on pourrait traduire litérallement Application Web Enrichie. Les RIA
 consistent à avoir une interface dans le navigateur plus proche des interfaces
 de clients lourds. Les pages webs historiqument ne changent que sur
 raffraichissement. 
@@ -149,8 +149,8 @@ javascript sur tous les navigateurs et hébergé sur tous types de serveurs.
 
 ----
 
-Frameworks Javascript (jquery/dojo...)
---------------------------------------
+Frameworks js (jquery/dojo...)
+------------------------------
 
 Si javascript permet beaucoup de chose, les contraintes d'interopérabilité en
 terme de navigateurs et l'aspect limité de l'api javascript DOM native ont
@@ -174,16 +174,52 @@ traduite en javascript pour être interprétée par les navigateurs.
 
 Conclusion
 ----------
-du texte
+
+Les technologies web ont toujours eu et ont toujours des limitations liés à des
+normes restraintes en termes fonctionnels, la lenteur d'évolution naturelle des
+standarts W3C ont donné aux plugins une raison de vivre, ils ont permis de
+mettre en exerg les attentes des utilisateurs. Des innovations majeures se sont
+démocratisés via flash, activex, google gears avant d'intégrer progressivement
+HTML. Conscient de cette lenteur, le commité du W3C semble aller dans la
+direction d'une norme html5 qui soit évolutive et non plus fixe pour permettre
+d'intégrer des innovations sans avoir à repporter son aspect stable à la
+prochaine version de la norme.
+
+Pour avoir pratiqué javascript avec dojo, je trouve personellement que les
+frameworks javascript sont une bonne solution pour allier efficacité,
+interopérabilité, l'efficacité, l'intégration avec les préférences du système
+et du navigateur sans imposer de contraintes à nos utilisateurs.
+
+Flash même si mon ordinateur personnel je me passe d'activex, silverlight,
+java… Flash n'est plus une option pour une navigation quotidienne.
 
 ----
 
 S+S : hybride entre le client lourd et le client léger.
 #######################################################
 
------
+----
 
-bonjour
--------
+Le concept
+----------
 
-du texte
+Inspiré ouvertement du SaaS (Software as a Service), S+S (Software plus
+Services) consiste à déployer un client lourd pour consommer un service hébergé
+sur le cloud. Ce modèle a pour avantages de permettres de décharger la
+consomation de bande passante, une partie des calculs sur les postes clients,
+une interface plus réactive pour les clients, la possibilité de consulter des
+données sans connexions, de faire interagir localement les données du service
+avec des données privées.
+
+----
+
+Le positionnement de Microsoft
+------------------------------
+
+**Microsoft propose un ensemble de solution pour servir transversalement toute la solution S+S**:
+
+    - Azure pour l'hébergement cloud.
+    - WCF pour développer des services d'exposition de données.
+    - Silverlight pour avoir un client in browser/out of browser.
+    - Intégration avec les autres technologies .NET.
+

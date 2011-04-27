@@ -14,6 +14,13 @@ It has been developped with VisualStudio 2010 and vim.
     It's a school project, don't use it in production, it has really feaw basics features and no garanties
     It was made for educational use and will not be maintained.
 
+.. note::
+
+    The twitter API key is not registred in the default config file, you'll
+    have to edit your Web.config file to add your Connexion String and in
+    <appSettings> section add: `<add key="consumerkey" value="yourkey" />` and
+    `<add key="consumersecret" value="yoursecret"/>`
+
 You may use this code under the WTFPL_ licence therms:
 
 ::
@@ -35,7 +42,3 @@ You may use this code under the WTFPL_ licence therms:
 
 .. _Github: http://github.com/Christophe31/SupInBlog
 
-.. toctree::
-    :maxdepth: 2
-
-    presentation
