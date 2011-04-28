@@ -119,7 +119,7 @@ namespace Twitruc.Models {
 			try {
 				Twitterizer.TwitterResponse<Twitterizer.TwitterStatusCollection> userResponse = Twitterizer.TwitterTimeline.HomeTimeline(tokens, o);
 				if (userResponse.Content != null) {
-					userResponse.ResponseObject.Where(st => st != null).Select(st => new TweetExtended(st)).ToList();
+					return userResponse.ResponseObject.Where(st => st != null).Select(st => new TweetExtended(st)).ToList();
 				}
 			} catch (Exception) { }
 			return db.TweetSet.Where(t => t.AuthorNick == usr.Nickname).ToArray().Select(t => new TweetExtended(t)).ToList();
