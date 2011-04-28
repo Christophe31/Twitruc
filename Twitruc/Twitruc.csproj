@@ -85,6 +85,7 @@
     <Content Include="Content\css\images\img18.jpg" />
     <Content Include="Content\css\images\img19.jpg" />
     <Content Include="Content\css\images\img20.jpg" />
+    <Content Include="Content\css\images\narwhal.png" />
     <Content Include="Content\css\images\spacer.gif" />
     <Content Include="Content\css\license.txt" />
     <Content Include="Content\css\style.css" />

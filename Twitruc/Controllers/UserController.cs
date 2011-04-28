@@ -87,7 +87,7 @@ namespace Twitruc.Controllers {
 		public ActionResult TwitterAuth() {
 			TwUser usr;
 			if (String.IsNullOrEmpty(Session["nickname"] as String))
-				return RedirectToAction("LogOn", "User", new ReturnUrl(this.HttpContext.Request.RawUrl));
+				return RedirectToAction("LogOn", "User", new {ReturnUrl=this.HttpContext.Request.RawUrl});
 			else
 				usr = userManager.getUser(Session["nickname"] as string);
 
@@ -100,11 +100,8 @@ namespace Twitruc.Controllers {
 
 			var tokens = OAuthUtility.GetRequestToken(ConfigurationManager.AppSettings["consumerkey"], ConfigurationManager.AppSettings["consumersecret"], "http://localhost/User/TwitterAuth");
 			var link = OAuthUtility.BuildAuthorizationUri(tokens.Token).AbsoluteUri;
-
+			
 			return this.Redirect(link);
 		}
-
-
 	}
-
 }
