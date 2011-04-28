@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.Title = "FromUser";
 }
-
 <h2>FromUser</h2>
-<div>@foreach (Twitruc.Models.TweetExtended t in ViewBag.Tweets) {<div>@Html.Partial("TweetDisplay", t)</div>}</div>
+<div>@foreach (Twitruc.Models.TweetExtended t in ViewBag.Tweets) {
+		 <div>@Html.Partial("TweetDisplay", t)</div>}
+</div>

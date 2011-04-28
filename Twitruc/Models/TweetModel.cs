@@ -22,16 +22,16 @@ namespace Twitruc.Models {
 	public class TweetExtended {
 		public TweetExtended(Twitterizer.TwitterStatus st) {
 			using (var db = new dbContainer()) {
-				try{
+				try {
 					this.DataBase = db.TweetSet.First(t => t.TweetId == st.Id);
-				} catch(InvalidOperationException){
+				} catch (InvalidOperationException) {
 					this.DataBase = new Twitruc.DAL.Tweet();
 					DataBase.Content = st.Text;
 					DataBase.AuthorNick = st.User.ScreenName;
 					DataBase.Date = st.CreatedDate;
 					DataBase.TweetId = st.Id;
 					DataBase.TwitrucUser = null;
-					DataBase.Public = ! st.User.IsProtected;
+					DataBase.Public = !st.User.IsProtected;
 					db.TweetSet.AddObject(DataBase);
 					db.SaveChanges();
 				}
@@ -43,8 +43,8 @@ namespace Twitruc.Models {
 
 	}
 	#endregion
-	public static class ExtentionsMethods { 
-		public static string Urlify(this string s){
+	public static class ExtentionsMethods {
+		public static string Urlify(this string s) {
 			string regex = @"((www\.|(http|https|ftp)+\:\/\/)[&#95;.a-z0-9-]+\.[a-z0-9\/&#95;:@=.+?,##%&~-]*[^.|\'|\# |!|\(|?|,| |>|<|;|\)])";
 			Regex r = new Regex(regex, RegexOptions.IgnoreCase);
 			return r.Replace(s, "<a href=\"$1\">$1</a>").Replace("href=\"www", "href=\"http://www");
@@ -72,11 +72,11 @@ namespace Twitruc.Models {
 			db.UserSet.Where(u => !u.Tweets.Any(t => !t.Sent))
 				.ToArray().Select(u => {
 					var tok = TwitrucHelpers.getTokens(u);
-					return u.Tweets.OrderBy(t=>t.Date).Select(t => {
+					return u.Tweets.OrderBy(t => t.Date).Select(t => {
 						Twitterizer.TwitterResponse<Twitterizer.TwitterStatus> userResponse = Twitterizer.TwitterStatus.Update(tok, t.Content);
 						t.TweetId = userResponse.ResponseObject.Id;
 						t.Sent = true;
-						t.Public = ! userResponse.ResponseObject.User.IsProtected;
+						t.Public = !userResponse.ResponseObject.User.IsProtected;
 						t.Date = userResponse.ResponseObject.CreatedDate;
 						return t;
 					});
@@ -84,5 +84,5 @@ namespace Twitruc.Models {
 		}
 
 	}
-#endregion
+	#endregion
 }

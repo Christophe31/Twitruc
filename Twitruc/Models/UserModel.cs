@@ -102,7 +102,9 @@ namespace Twitruc.Models {
 				if (String.IsNullOrEmpty(newPassword)) throw new ArgumentException("Value cannot be null or empty.", "newPassword");
 
 				try {
-					db.UserSet.Where(u => u.Nickname == nickname).FirstOrDefault().Password = newPassword;
+					db.UserSet.Where(u => u.Nickname == nickname)
+						.FirstOrDefault()
+						.Password = newPassword;
 					db.SaveChanges();
 					return true;
 				} catch (Exception) {
@@ -137,5 +139,4 @@ namespace Twitruc.Models {
 			public string returnUrl { get; set; }
 		}
 		#endregion
-
 }
