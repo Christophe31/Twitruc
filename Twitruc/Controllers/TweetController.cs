@@ -7,21 +7,18 @@ using System.Web.Mvc;
 using System.Configuration;
 using Twitruc.Models;
 
-namespace Twitruc.Controllers
-{
-    public class TweetController : Controller
-    {
-        //
-        // GET: /Tweet/
+namespace Twitruc.Controllers {
+	public class TweetController : Controller {
+		//
+		// GET: /Tweet/
 		private UserService userManager { get; set; }
 		private TweetService tweetManager { get; set; }
-		public TweetController() { 
+		public TweetController() {
 			userManager = new UserService();
 			tweetManager = new TweetService();
 		}
 
-        public ActionResult Index()
-        {
+		public ActionResult Index() {
 			TwUser usr;
 			if (String.IsNullOrEmpty(Session["nickname"] as String))
 				return RedirectToAction("LogOn", "User", new ReturnUrl(this.HttpContext.Request.RawUrl));
@@ -29,12 +26,12 @@ namespace Twitruc.Controllers
 				usr = userManager.getUser(Session["nickname"] as string);
 
 			var tokens = TwitrucHelpers.getTokens(usr);
-			var o=new Twitterizer.TimelineOptions();
+			var o = new Twitterizer.TimelineOptions();
 			o.Count = 60;
-			Twitterizer.TwitterResponse<Twitterizer.TwitterStatusCollection> userResponse = Twitterizer.TwitterTimeline.HomeTimeline(tokens,o);
-			ViewBag.Tweets = userResponse.ResponseObject.Where(st=>st!=null).Select(st => new TweetExtended(st)).ToList();
+			Twitterizer.TwitterResponse<Twitterizer.TwitterStatusCollection> userResponse = Twitterizer.TwitterTimeline.HomeTimeline(tokens, o);
+			ViewBag.Tweets = userResponse.ResponseObject.Where(st => st != null).Select(st => new TweetExtended(st)).ToList();
 			return View(new TweetModel());
-        }
+		}
 
 		[HttpPost]
 		public ActionResult Index(TweetModel model) {
@@ -47,7 +44,7 @@ namespace Twitruc.Controllers
 			var tokens = TwitrucHelpers.getTokens(usr);
 
 			if (ModelState.IsValid) {
-				tweetManager.CreateTweet(model.Content,usr);
+				tweetManager.CreateTweet(model.Content, usr);
 				tweetManager.SyncTweets();
 			}
 			Twitterizer.TwitterResponse<Twitterizer.TwitterStatusCollection> userResponse = Twitterizer.TwitterTimeline.HomeTimeline(tokens);
@@ -82,10 +79,22 @@ namespace Twitruc.Controllers
 			var o = new Twitterizer.UserTimelineOptions();
 			o.ScreenName = id;
 			o.Count = 50;
-			Twitterizer.TwitterResponse<Twitterizer.TwitterStatusCollection> userResponse = Twitterizer.TwitterTimeline.UserTimeline(tokens,o);
+			Twitterizer.TwitterResponse<Twitterizer.TwitterStatusCollection> userResponse = Twitterizer.TwitterTimeline.UserTimeline(tokens, o);
 			ViewBag.Tweets = userResponse.ResponseObject.Select(st => new TweetExtended(st)).ToList();
 			return View();
 		}
 
-    }
+		public ActionResult apiRetweet(string id) {
+			TwUser usr;
+			if (String.IsNullOrEmpty(Session["nickname"] as String))
+				return RedirectToAction("LogOn", "User", new ReturnUrl(this.HttpContext.Request.RawUrl));
+			else
+				usr = userManager.getUser(Session["nickname"] as string);
+
+			var tokens = TwitrucHelpers.getTokens(usr);
+			Twitterizer.TwitterResponse<Twitterizer.TwitterStatus> userResponse = Twitterizer.TwitterStatus.Retweet(tokens, decimal.Parse(id));
+			return Json(new { ok = true }, JsonRequestBehavior.AllowGet);
+		}
+
+	}
 }
