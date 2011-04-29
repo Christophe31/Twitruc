@@ -21,6 +21,11 @@ It has been developped with VisualStudio 2010 and vim.
     <appSettings> section add: `<add key="consumerkey" value="yourkey" />` and
     `<add key="consumersecret" value="yoursecret"/>`
 
+.. note::
+
+    Some template code, skin, pictures in this project does'nt belongs to me so
+    they may be licensed differrently.
+
 You may use this code under the WTFPL_ licence therms:
 
 ::
