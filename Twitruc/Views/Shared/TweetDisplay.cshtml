@@ -1,0 +1,13 @@
+﻿@model Twitruc.Models.TweetExtended
+@using Twitruc.Models;
+@using Twitruc.DAL;
+@using System.Data.Entity;
+
+<div>
+	<img src="@(Model.Tweeter!=null? Model.Tweeter.User.ProfileImageLocation : Url.Content("~/Content/css/images/narwhal.png"))" alt="user_avatar" style="float:left;" />
+	<div>@Html.Raw(Html.Encode(Model.Content).Urlify())</div>
+	<p class="meta">
+		<em>{<a href="/Tweet/FromUser/@Model.AuthorNick"><b>@@@Model.AuthorNick</b></a>
+			the <i>@Model.Date</i>}</em>@if (Model.Tweeter!=null && !Model.Tweeter.Retweeted) { <text><button onclick="retweet(this,'@Model.TweetId')">retweet</button></text> }
+	</p>
+</div>

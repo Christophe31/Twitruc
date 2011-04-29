@@ -9,10 +9,8 @@ using Twitruc.Models;
 using System.Web.Routing;
 using System.Configuration;
 
-namespace Twitruc.Controllers
-{
-    public class UserController : Controller
-    {
+namespace Twitruc.Controllers {
+	public class UserController : Controller {
 		public UserService userManager { get; set; }
 
 		protected override void Initialize(RequestContext requestContext) {
@@ -63,7 +61,7 @@ namespace Twitruc.Controllers
 		// **************************************
 
 		public ActionResult Register() {
-//			ViewBag.PasswordLength = userManager.MinPasswordLength;
+			//			ViewBag.PasswordLength = userManager.MinPasswordLength;
 			return View();
 		}
 
@@ -72,7 +70,7 @@ namespace Twitruc.Controllers
 			if (ModelState.IsValid) {
 				if (userManager.CreateUser(model.Name, model.Nickname, model.Password, model.Email)) {
 					userManager.SignIn(model.Nickname, false /* createPersistentCookie */);
-					return RedirectToAction( "TwitterAuth", "User");
+					return RedirectToAction("TwitterAuth", "User");
 				}
 			}
 
@@ -89,25 +87,21 @@ namespace Twitruc.Controllers
 		public ActionResult TwitterAuth() {
 			TwUser usr;
 			if (String.IsNullOrEmpty(Session["nickname"] as String))
-				return RedirectToAction("LogOn", "User", new ReturnUrl(this.HttpContext.Request.RawUrl));
-			else 
+				return RedirectToAction("LogOn", "User", new {ReturnUrl=this.HttpContext.Request.RawUrl});
+			else
 				usr = userManager.getUser(Session["nickname"] as string);
 
-			if (! String.IsNullOrEmpty(HttpContext.Request.QueryString["oauth_token"]))
-			{
+			if (!String.IsNullOrEmpty(HttpContext.Request.QueryString["oauth_token"])) {
 				var atoken = OAuthUtility.GetAccessTokenDuringCallback(ConfigurationManager.AppSettings["consumerkey"], ConfigurationManager.AppSettings["consumersecret"]);
 				this.userManager.UpdateTwitterAccount(atoken, usr);
 
-				return RedirectToAction("Index","Tweet");
+				return RedirectToAction("Index", "Tweet");
 			}
 
 			var tokens = OAuthUtility.GetRequestToken(ConfigurationManager.AppSettings["consumerkey"], ConfigurationManager.AppSettings["consumersecret"], "http://localhost/User/TwitterAuth");
 			var link = OAuthUtility.BuildAuthorizationUri(tokens.Token).AbsoluteUri;
-
+			
 			return this.Redirect(link);
 		}
-
-
 	}
-
 }

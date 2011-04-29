@@ -85,6 +85,7 @@
     <Content Include="Content\css\images\img18.jpg" />
     <Content Include="Content\css\images\img19.jpg" />
     <Content Include="Content\css\images\img20.jpg" />
+    <Content Include="Content\css\images\narwhal.png" />
     <Content Include="Content\css\images\spacer.gif" />
     <Content Include="Content\css\license.txt" />
     <Content Include="Content\css\style.css" />
@@ -127,6 +128,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\modernizr-1.7.js" />
     <Content Include="Scripts\modernizr-1.7.min.js" />
+    <Content Include="Scripts\retweet.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

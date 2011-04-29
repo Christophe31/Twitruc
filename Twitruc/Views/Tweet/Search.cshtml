@@ -1,0 +1,8 @@
+﻿@{
+	ViewBag.Title = "Search";
+}
+<ul>
+	@foreach (Twitterizer.TwitterSearchResult sr in ViewBag.Tweets) {
+		<li>by @@@sr.FromUserScreenName: @sr.Text</li>
+ }
+</ul>
